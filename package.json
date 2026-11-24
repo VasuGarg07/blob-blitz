@@ -1,0 +1,25 @@
+{
+  "name": "blot-blitz",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "words": "node scripts/build-words.mjs"
+  },
+  "dependencies": {
+    "zzfx": "^1.4.0"
+  },
+  "devDependencies": {
+    "naughty-words": "^1.2.0",
+    "obscenity": "^0.4.6",
+    "simple-icons": "^16.37.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.1",
+    "wordlist-english": "^1.2.1"
+  }
+}

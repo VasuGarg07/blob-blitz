@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Blot Blitz</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=M+PLUS+1+Code:wght@500;700&display=swap">
+</head>
+<body>
+<header class="hud">
+  <div><span class="pages" id="pages" role="img" aria-label="3 pages left"></span><span id="chapter">Chapter 1</span><b class="time" id="time" role="timer" aria-label="Time left">0:45</b></div>
+  <div>
+    <span class="stat">Combo<b id="combo">0</b></span>
+    <span class="stat">Score<b id="score">0</b></span>
+    <button class="mute" id="mute" type="button">Sound on</button>
+  </div>
+</header>
+
+<main class="stage" id="stage">
+  <div class="hero" id="hero">
+    <svg viewBox="0 0 120 120" role="img" aria-label="Your pen nib">
+      <g stroke="#171532" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M22 44 L2 34 M22 50 L0 56" fill="none" stroke="#d42a14" stroke-width="7"/>
+        <path d="M14 42 Q10 60 14 78 L52 88 Q86 78 116 60 Q86 42 52 32 Z" fill="#fff"/>
+        <path d="M30 39 L40 35 L40 85 L30 82 Z" fill="#d42a14"/>
+        <path d="M74 60 L112 60" fill="none"/>
+        <circle cx="72" cy="60" r="5" fill="#171532"/>
+        <path d="M50 48 L60 52 M50 72 L60 68" fill="none" stroke-width="5"/>
+      </g>
+    </svg>
+  </div>
+  <div id="blots"></div>
+  <div class="banner" id="banner" aria-live="polite"></div>
+  <section class="overlay" id="overlay">
+    <h1 id="title">Blot<br>Blitz</h1>
+    <p class="plain" id="message">Ink blots are after your manuscript. Type their words to slash them. Survive 45 seconds, then beat the boss in 30. There are 100 chapters, each with its own boss.</p>
+    <button class="go" id="go" type="button">Start drawing</button>
+    <button class="plain again" id="restart" type="button" hidden>Start over from chapter 1</button>
+  </section>
+</main>
+
+<button class="spread" id="spread" type="button"><i></i><span id="spreadLabel"></span></button>
+<footer class="footer">
+  <nav>
+    <span>Made by Vasu Garg</span>
+    <a href="https://github.com/VasuGarg07" target="_blank" rel="noopener" id="github" aria-label="Vasu Garg on GitHub"></a>
+    <a href="https://x.com/_vasugarg_" target="_blank" rel="noopener" id="x" aria-label="Vasu Garg on X"></a>
+  </nav>
+  <span>Built with <a href="https://github.com/finktheartist/sakuga-vfx" target="_blank" rel="noopener">Sakuga VFX</a>, <a href="https://github.com/KilledByAPixel/ZzFX" target="_blank" rel="noopener">ZzFX</a> and <a href="https://github.com/jacksonrayhamilton/wordlist-english" target="_blank" rel="noopener">wordlist-english</a></span>
+</footer>
+<input id="keys" type="text" aria-label="Type here" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+<script src="/sakuga-core.js"></script>
+<script type="module" src="/src/main.ts"></script>
+</body>
+</html>
