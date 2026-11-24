@@ -1,4 +1,3 @@
-import { BOSSES } from './bosses';
 import { byId, stage } from './dom';
 import { formatScore } from './format';
 import { sound } from './sound';
@@ -22,7 +21,7 @@ export function drawHud() {
   const full = charge >= 100;
   byId('pages').innerHTML = [0, 1, 2].map((i) => `<i class="${i < lives ? '' : 'lost'}"></i>`).join('');
   byId('pages').setAttribute('aria-label', `${lives} pages left`);
-  byId('chapter').textContent = `Chapter ${chapter || 1} of ${BOSSES.length}`;
+  byId('chapter').textContent = `Chapter ${chapter || 1}`;
   byId('combo').textContent = String(combo);
   byId('score').textContent = formatScore(score);
   drawTime();

@@ -12,9 +12,9 @@ A typing battle with anime-style impact effects. Ink blots are after your manusc
 
 ## Chapters and bosses
 
-There are 100 chapters. Each is a 45-second round followed by a boss you must beat in 30 seconds by typing its sentence.
+Each chapter is a 45-second round followed by a boss you must beat in 30 seconds by typing its sentence.
 
-Every boss has its own name and look, and powers it may share with others: some dash, call for help, fade or flip their words, hide letters, rewrite slow words, or wipe your progress when you slip.
+Bosses come in a new order each run. Every boss has its own name and look, and powers it may share with others: some dash, call for help, fade or flip their words, hide letters, rewrite slow words, or wipe your progress when you slip.
 
 Every ten chapters is a checkpoint that refills your pages. You can continue from your latest one.
 

@@ -1,22 +1,24 @@
 import { addBlot, drawWord, place, release, remove } from './blots';
-import { BOSSES } from './bosses';
+import { shuffleBosses } from './bosses';
 import { input } from './dom';
 import { formatScore } from './format';
 import * as effects from './effects';
 import { drawHud, drawTime, hideOverlay, showBanner, showOverlay } from './hud';
 import { runPower } from './powers';
+import { pick } from './random';
 import { addCombo, blotSpeed, bossSpeed, findTarget, newGame, rewardWord, checkpointFor, spawnDelay, startBoss, startChapter, summary, timeBonus, volumeOf, type Blot } from './rules';
 import { fx } from './sakuga';
 import { unlockSound } from './sound';
 import { state } from './state';
 import { readCheckpoint, saveBest, saveCheckpoint } from './storage';
 import { setPaper } from './theme';
-import { pick, pickWord, wordPool } from './words';
+import { takeWord, wordPool } from './words';
 
 let lastLane = 0;
 let pool: string[] = [];
+let bosses = shuffleBosses();
 
-const newWord = () => pickWord(pool, state.blots.map((blot) => blot.word));
+const newWord = () => takeWord(pool, state.blots.map((blot) => blot.word));
 const findBoss = () => state.blots.find((blot) => blot.queue);
 
 function spawnNext() {
@@ -28,8 +30,8 @@ function spawnNext() {
 
 function spawnBoss() {
   const { chapter } = state.game;
-  const boss = BOSSES[chapter - 1];
-  const extraWords = Array.from({ length: Math.floor(volumeOf(chapter) / 3) }, () => pick(pool));
+  const boss = bosses[chapter - 1];
+  const extraWords = Array.from({ length: Math.floor(volumeOf(chapter) / 3) }, () => pool.pop()!);
   const [word, ...queue] = [...pick(boss.lines).split(' '), ...extraWords];
   startBoss(state.game);
   addBlot({ word, x: 1.05, y: 0.46, speed: bossSpeed(chapter), queue, boss });
@@ -127,7 +129,7 @@ function loseLife() {
   state.game.combo = 0;
   state.game.lives--;
   drawHud();
-  if (state.game.lives === 0) endGame('Inked<br>out', `You reached chapter ${state.game.chapter} of ${BOSSES.length}.`);
+  if (state.game.lives === 0) endGame('Inked<br>out', `You reached chapter ${state.game.chapter}.`);
 }
 
 function hurt(blot: Blot) {
@@ -172,6 +174,7 @@ function enterPlay() {
 export function playFrom(chapter: number) {
   state.blots.forEach(remove);
   state.game = newGame();
+  bosses = shuffleBosses();
   state.game.chapter = chapter - 1;
   state.freeze = 0;
   nextChapter();
@@ -191,10 +194,10 @@ export function pause() {
 
 function afterBoss() {
   clearBlots();
-  if (state.game.chapter < BOSSES.length) nextChapter();
+  if (state.game.chapter < bosses.length) nextChapter();
   else if (state.game.bossBeaten) {
     saveCheckpoint(1);
-    endGame('The<br>end', `You beat all ${BOSSES.length} bosses.`);
+    endGame('The<br>end', 'You beat every boss.');
   }
   else spawnBoss();
 }

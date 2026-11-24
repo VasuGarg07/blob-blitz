@@ -1,3 +1,4 @@
+import { shuffle } from './random';
 import { volumeOf } from './rules';
 import bank from './word-bank.json';
 
@@ -16,14 +17,13 @@ const LEVELS = [
   { lists: [common, familiar, rare], min: 7, max: 12 },
 ];
 
-export const pick = <T>(list: T[]) => list[Math.floor(Math.random() * list.length)];
-
 export function wordPool(chapter: number) {
   const { lists, min, max } = LEVELS[volumeOf(chapter)];
-  return lists.flat().filter((word) => word.length >= min && word.length <= max);
+  return shuffle(lists.flat().filter((word) => word.length >= min && word.length <= max));
 }
 
-export function pickWord(pool: string[], wordsOnStage: string[]) {
+export function takeWord(pool: string[], wordsOnStage: string[]) {
   const usedLetters = wordsOnStage.map((word) => word[0]);
-  return pick(pool.filter((word) => !usedLetters.includes(word[0])));
+  const index = pool.findIndex((word) => !usedLetters.includes(word[0]));
+  return pool.splice(index, 1)[0];
 }

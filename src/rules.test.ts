@@ -1,9 +1,9 @@
 import { expect, test } from 'vitest';
-import { BOSSES } from './bosses';
+import { BOSSES, shuffleBosses, VOLUME_SIZE } from './bosses';
 import { addCombo, blotSpeed, checkpointFor, BOSS_SECONDS, findTarget, newGame, rewardWord, ROUND_SECONDS, spawnDelay, startBoss, startChapter, summary, timeBonus } from './rules';
 import bank from './word-bank.json';
 import { formatScore } from './format';
-import { pickWord, wordPool } from './words';
+import { takeWord, wordPool } from './words';
 
 test('targets the closest visible blot with the typed letter', () => {
   const blots = [{ word: 'ink', x: 0.8 }, { word: 'impact', x: 0.4 }, { word: 'pen', x: 0.2 }, { word: 'zoom', x: 1.05 }];
@@ -59,11 +59,6 @@ test('chapters start with short words and later ones get longer', () => {
   expect(wordPool(100).some((word) => word.length === 12)).toBe(true);
 });
 
-test('new words never share a first letter with words on stage', () => {
-  const pool = wordPool(1);
-  for (let i = 0; i < 200; i++) expect('pi').not.toContain(pickWord(pool, ['pen', 'ink'])[0]);
-});
-
 test('all 100 bosses have their own name and drawing', () => {
   expect(BOSSES.length).toBe(100);
   expect(new Set(BOSSES.map((boss) => boss.name)).size).toBe(100);
@@ -102,4 +97,23 @@ test('summary reports words a minute and accuracy', () => {
 
 test('scores shorten to K, M and B with one decimal', () => {
   expect([950, 1000, 23_900_000, 99_900_000_000].map(formatScore)).toEqual(['950', '1.0 K', '23.9 M', '99.9 B']);
+});
+
+test('new words never share a first letter with words on stage', () => {
+  const pool = wordPool(1);
+  for (let i = 0; i < 200; i++) expect('pi').not.toContain(takeWord(pool, ['pen', 'ink'])[0]);
+});
+
+test('words are shuffled for each chapter and never repeat within one', () => {
+  expect(wordPool(1).slice(0, 20)).not.toEqual(wordPool(1).slice(0, 20));
+  const pool = wordPool(1);
+  const taken = Array.from({ length: 500 }, () => takeWord(pool, []));
+  expect(new Set(taken).size).toBe(500);
+});
+
+test('every run meets every boss in a new order, ending each volume on Deadline', () => {
+  const order = shuffleBosses();
+  expect(new Set(order)).toEqual(new Set(BOSSES));
+  expect(order).not.toEqual(shuffleBosses());
+  for (let i = VOLUME_SIZE - 1; i < order.length; i += VOLUME_SIZE) expect(order[i].name).toContain('Deadline');
 });

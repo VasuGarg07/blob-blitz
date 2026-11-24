@@ -1,5 +1,6 @@
 import { blob, eye } from './art';
 import { INK, WHITE } from './colors';
+import { shuffle } from './random';
 
 export type Power = 'drift' | 'summon' | 'erase' | 'rewrite' | 'fade' | 'dash' | 'mirror' | 'censor';
 
@@ -127,6 +128,13 @@ function makeBoss(family: Family, volume: Volume): Boss {
     art: () => volume.behind(volume.accent) + family.art(volume.accent) + volume.front(volume.accent),
     lines: family.lines,
   };
+}
+
+export function shuffleBosses() {
+  return VOLUMES.flatMap((_, i) => {
+    const bosses = BOSSES.slice(i * VOLUME_SIZE, (i + 1) * VOLUME_SIZE);
+    return [...shuffle(bosses.slice(0, -1)), ...bosses.slice(-1)];
+  });
 }
 
 export const BOSSES = VOLUMES.flatMap((volume) => FAMILIES.map((family) => makeBoss(family, volume)));
